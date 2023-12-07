@@ -1,24 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from 'react';
 
 function App() {
+  const [peopleInSpace, setPeopleInSpace] = useState(0);
+
+  useEffect(() => {
+    async function fetchPeopleInSpace() {
+      const response = await fetch(
+        "http://api.open-notify.org/astros.json"
+      );
+      const data = await response.json();
+      setPeopleInSpace(data.number);
+    }
+    fetchPeopleInSpace();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <article>
+      <p>People in Space: {peopleInSpace}</p>
+    </article>
   );
 }
 
